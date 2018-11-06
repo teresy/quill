@@ -51,7 +51,7 @@ class DepartmentsSparkSpec extends Spec {
     val q = quote {
       (u: String) =>
         for {
-          d <- departments if (
+          d <- departments if 
             (for {
               e <- employees if (
                 e.dpt == d.dpt && (
@@ -61,8 +61,7 @@ class DepartmentsSparkSpec extends Spec {
                 ).isEmpty
               )
             } yield {}).isEmpty
-          )
-        } yield d.dpt
+           } yield d.dpt
     }
     testContext.run(q("abstract")).collect().toList mustEqual
       List("Quality", "Research")
@@ -77,12 +76,10 @@ class DepartmentsSparkSpec extends Spec {
           } yield {
             (d.dpt,
               for {
-                e <- employees if (d.dpt == e.dpt)
-              } yield {
+                e <- employees if d.dpt == e.dpt } yield {
                 (e.emp,
                   for {
-                    t <- tasks if (e.emp == t.emp)
-                  } yield {
+                    t <- tasks if e.emp == t.emp } yield {
                     t.tsk
                   })
               })
@@ -92,8 +89,7 @@ class DepartmentsSparkSpec extends Spec {
       def any[T] =
         quote { (xs: Query[T]) => (p: T => Boolean) =>
           (for {
-            x <- xs if (p(x))
-          } yield {}).nonEmpty
+            x <- xs if p(x) } yield {}).nonEmpty
         }
 
       def all[T] =
@@ -109,8 +105,7 @@ class DepartmentsSparkSpec extends Spec {
       quote {
         (u: String) =>
           for {
-            (dpt, employees) <- nestedOrg if (all(employees) { case (emp, tasks) => contains(tasks)(u) })
-          } yield {
+            (dpt, employees) <- nestedOrg if all(employees) { case (emp, tasks) => contains(tasks)(u) } } yield {
             dpt
           }
       }

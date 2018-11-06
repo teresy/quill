@@ -37,8 +37,7 @@ trait PeopleSpec extends Spec {
       for {
         c <- query[Couple]
         w <- query[Person]
-        m <- query[Person] if (c.her == w.name && c.him == m.name && w.age > m.age)
-      } yield {
+        m <- query[Person] if c.her == w.name && c.him == m.name && w.age > m.age } yield {
         (w.name, w.age - m.age)
       }
     }
@@ -47,8 +46,7 @@ trait PeopleSpec extends Spec {
   val `Ex 2 rangeSimple` = quote {
     (a: Int, b: Int) =>
       for {
-        u <- query[Person] if (a <= u.age && u.age < b)
-      } yield {
+        u <- query[Person] if a <= u.age && u.age < b } yield {
         u
       }
   }
@@ -60,8 +58,7 @@ trait PeopleSpec extends Spec {
     quote {
       (p: Int => Boolean) =>
         for {
-          u <- query[Person] if (p(u.age))
-        } yield {
+          u <- query[Person] if p(u.age) } yield {
           u
         }
     }
@@ -75,16 +72,14 @@ trait PeopleSpec extends Spec {
     val range = quote {
       (a: Int, b: Int) =>
         for {
-          u <- query[Person] if (a <= u.age && u.age < b)
-        } yield {
+          u <- query[Person] if a <= u.age && u.age < b } yield {
           u
         }
     }
     val ageFromName = quote {
       (s: String) =>
         for {
-          u <- query[Person] if (s == u.name)
-        } yield {
+          u <- query[Person] if s == u.name } yield {
           u.age
         }
     }

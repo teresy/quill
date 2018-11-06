@@ -37,8 +37,7 @@ class PeopleJdbcSpec extends Spec {
         for {
           c <- couples
           w <- people
-          m <- people if (c.her == w.name && c.him == m.name && w.age > m.age)
-        } yield {
+          m <- people if c.her == w.name && c.him == m.name && w.age > m.age } yield {
           (w.name, w.age - m.age)
         }
       }
@@ -50,8 +49,7 @@ class PeopleJdbcSpec extends Spec {
     val rangeSimple = quote {
       (a: Int, b: Int) =>
         for {
-          u <- people if (a <= u.age && u.age < b)
-        } yield {
+          u <- people if a <= u.age && u.age < b } yield {
           u
         }
     }
@@ -64,8 +62,7 @@ class PeopleJdbcSpec extends Spec {
     quote {
       (p: Int => Boolean) =>
         for {
-          u <- people if (p(u.age))
-        } yield {
+          u <- people if p(u.age) } yield {
           u
         }
     }
@@ -85,16 +82,14 @@ class PeopleJdbcSpec extends Spec {
       val range = quote {
         (a: Int, b: Int) =>
           for {
-            u <- people if (a <= u.age && u.age < b)
-          } yield {
+            u <- people if a <= u.age && u.age < b } yield {
             u
           }
       }
       val ageFromName = quote {
         (s: String) =>
           for {
-            u <- people if (s == u.name)
-          } yield {
+            u <- people if s == u.name } yield {
             u.age
           }
       }

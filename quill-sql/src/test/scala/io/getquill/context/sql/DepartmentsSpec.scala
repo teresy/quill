@@ -64,7 +64,7 @@ trait DepartmentsSpec extends Spec {
     quote {
       (u: String) =>
         for {
-          d <- query[Department] if (
+          d <- query[Department] if 
             (for {
               e <- query[Employee] if (
                 e.dpt == d.dpt && (
@@ -74,8 +74,7 @@ trait DepartmentsSpec extends Spec {
                 ).isEmpty
               )
             } yield {}).isEmpty
-          )
-        } yield d.dpt
+           } yield d.dpt
     }
 
   val `Example 8 param` = "abstract"
@@ -85,8 +84,7 @@ trait DepartmentsSpec extends Spec {
   def any[T] =
     quote { (xs: Query[T]) => (p: T => Boolean) =>
       (for {
-        x <- xs if (p(x))
-      } yield {}).nonEmpty
+        x <- xs if p(x) } yield {}).nonEmpty
     }
 
   val `Example 9 expertise` = {
@@ -97,12 +95,10 @@ trait DepartmentsSpec extends Spec {
         } yield {
           (d.dpt,
             for {
-              e <- query[Employee] if (d.dpt == e.dpt)
-            } yield {
+              e <- query[Employee] if d.dpt == e.dpt } yield {
               (e.emp,
                 for {
-                  t <- query[Task] if (e.emp == t.emp)
-                } yield {
+                  t <- query[Task] if e.emp == t.emp } yield {
                   t.tsk
                 })
             })
@@ -122,8 +118,7 @@ trait DepartmentsSpec extends Spec {
     quote {
       (u: String) =>
         for {
-          (dpt, employees) <- nestedOrg if (all(employees) { case (emp, tasks) => contains(tasks)(u) })
-        } yield {
+          (dpt, employees) <- nestedOrg if all(employees) { case (emp, tasks) => contains(tasks)(u) } } yield {
           dpt
         }
     }

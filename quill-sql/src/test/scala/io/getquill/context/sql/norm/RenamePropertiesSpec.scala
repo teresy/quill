@@ -97,8 +97,7 @@ class RenamePropertiesSpec extends Spec {
         val q = quote {
           for {
             a <- e
-            b <- qr2 if (a.s == b.s)
-          } yield {
+            b <- qr2 if a.s == b.s } yield {
             (a, b)
           }
         }

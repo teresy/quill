@@ -392,8 +392,7 @@ class CaseClassQuerySpec extends Spec {
   "Two Level Select - Filtered First Part" in {
     val q = quote {
       for {
-        p <- peopleEntries if (p.firstName == "Bert")
-      } yield ContactSimplified(p.firstName, p.lastName, reverse(p.firstName))
+        p <- peopleEntries if p.firstName == "Bert" } yield ContactSimplified(p.firstName, p.lastName, reverse(p.firstName))
     }
 
     val q2 = quote {
@@ -413,8 +412,7 @@ class CaseClassQuerySpec extends Spec {
 
     val q2 = quote {
       for {
-        p <- q if (p.lastNameRenamed == "James")
-      } yield ContactSimplified(p.firstName, p.lastNameRenamed, reverse(p.firstName))
+        p <- q if p.lastNameRenamed == "James" } yield ContactSimplified(p.firstName, p.lastNameRenamed, reverse(p.firstName))
     }
     testContext.run(q2).collect() should contain theSameElementsAs expectedData.filter(_.firstName == "Bert")
   }
@@ -422,14 +420,12 @@ class CaseClassQuerySpec extends Spec {
   "Two Level Select - Filtered First and Second Part" in {
     val q = quote {
       for {
-        p <- peopleEntries if (p.firstName == "Bert" || p.firstName == "Alex")
-      } yield ContactSimplified(p.firstName, p.lastName, reverse(p.firstName))
+        p <- peopleEntries if p.firstName == "Bert" || p.firstName == "Alex" } yield ContactSimplified(p.firstName, p.lastName, reverse(p.firstName))
     }
 
     val q2 = quote {
       for {
-        p <- q if (p.lastNameRenamed == "James")
-      } yield ContactSimplified(p.firstName, p.lastNameRenamed, reverse(p.firstName))
+        p <- q if p.lastNameRenamed == "James" } yield ContactSimplified(p.firstName, p.lastNameRenamed, reverse(p.firstName))
     }
     testContext.run(q2).collect() should contain theSameElementsAs expectedData.filter(_.firstName == "Bert")
   }

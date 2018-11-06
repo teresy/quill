@@ -14,8 +14,7 @@ class SqlQuerySpec extends Spec {
       val q = quote {
         for {
           a <- qr1
-          b <- qr2 if (a.s != null && b.i > a.i)
-        } yield {
+          b <- qr2 if a.s != null && b.i > a.i } yield {
           (a.i, b.i)
         }
       }
@@ -573,8 +572,7 @@ class SqlQuerySpec extends Spec {
         val q = quote {
           for {
             a <- qr1
-            b <- qr2 if (b.i > a.i)
-          } yield {
+            b <- qr2 if b.i > a.i } yield {
             TrivialEntity(b.s)
           }
         }
